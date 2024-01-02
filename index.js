@@ -53,6 +53,20 @@ async function run() {
             }
         }
 
+        // go through prefix_map and remove all the labels before we add a label
+        for (const [key, value ] of Object.entries(prefix_map)) {
+            try {
+                await octokit.issues.removeLabel({
+                        name: value,
+                        owner: github.context.repo.owner,
+                        repo: github.context.repo.repo,
+                        issue_number: github.context.payload.pull_request.number,
+                    });
+            } catch (e) {
+                core.warning(`failed to remove label: ${value}: ${e}`);
+            }
+        }
+
         if (label.length > 0) {
             await octokit.issues.addLabels({
                 owner: github.context.repo.owner,
