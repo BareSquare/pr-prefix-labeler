@@ -53,7 +53,7 @@ async function run() {
             }
         }
 
-        // go through prefix_map and remove all the labels before we add a label
+        // go through prefix_map and remove all the labels before we add a label. Fix for ticket PL-708.
         for (const [key, value ] of Object.entries(prefix_map)) {
             try {
                 await octokit.issues.removeLabel({
